@@ -39,10 +39,10 @@ public class ControladorLogin {
     private void llenarUsuarios()
     {
         usuarios = new ArrayList<>();           
-//        usuarios.add(new Usuario("carloaiza@umanizales.edu.co", "123456", tipoUsuarios[0],"Carlos", "Loaiza Guerrero",(byte) 54));
-//        usuarios.add(new Usuario("consulta@umanizales.edu.co", "654321", tipoUsuarios[1],"Pedro", "Pérez Osa",(byte) 24));
-//        usuarios.add(new Usuario("secretaria@umanizales.edu.co", "13579", tipoUsuarios[2],"Juanita", "Juárez Jaramillo",(byte) 18));       
-//        
+        usuarios.add(new Usuario("carloaiza@umanizales.edu.co", "123456", tipoUsuarios[0],"Carlos", "Loaiza Guerrero",(byte) 54));
+        usuarios.add(new Usuario("consulta@umanizales.edu.co", "654321", tipoUsuarios[1],"Pedro", "Pérez Osa",(byte) 24));
+        usuarios.add(new Usuario("secretaria@umanizales.edu.co", "13579", tipoUsuarios[2],"Juanita", "Juárez Jaramillo",(byte) 18));       
+        
         //cargar el csv
     }
     
