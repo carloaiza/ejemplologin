@@ -7,6 +7,7 @@ package ejemplologin.controlador;
 
 import ejemplologin.modelo.TipoUsuario;
 import ejemplologin.modelo.Usuario;
+import ejemplologin.utilidades.LeerArchivoPlano;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ControladorLogin {
     //Cambiar por una collección java.util
     // Set, List, HashTable 
     //ArrayList - Polimorfismo
-    private List<Usuario> usuarios;
+    private List<Usuario> usuarios;    
     
 
     public ControladorLogin() {
@@ -38,12 +39,14 @@ public class ControladorLogin {
     
     private void llenarUsuarios()
     {
-        usuarios = new ArrayList<>();           
-        usuarios.add(new Usuario("carloaiza@umanizales.edu.co", "123456", tipoUsuarios[0],"Carlos", "Loaiza Guerrero",(byte) 54));
-        usuarios.add(new Usuario("consulta@umanizales.edu.co", "654321", tipoUsuarios[1],"Pedro", "Pérez Osa",(byte) 24));
-        usuarios.add(new Usuario("secretaria@umanizales.edu.co", "13579", tipoUsuarios[2],"Juanita", "Juárez Jaramillo",(byte) 18));       
-        
+//        usuarios = new ArrayList<>();           
+//        usuarios.add(new Usuario("carloaiza@umanizales.edu.co", "123456", tipoUsuarios[0],"Carlos", "Loaiza Guerrero",(byte) 54));
+//        usuarios.add(new Usuario("consulta@umanizales.edu.co", "654321", tipoUsuarios[1],"Pedro", "Pérez Osa",(byte) 24));
+//        usuarios.add(new Usuario("secretaria@umanizales.edu.co", "13579", tipoUsuarios[2],"Juanita", "Juárez Jaramillo",(byte) 18));       
+//        
         //cargar el csv
+        usuarios=LeerArchivoPlano.cargarUsuarios(tipoUsuarios);
+        
     }
     
     public Usuario encontrarUsuario(String correo, String password)

@@ -1,0 +1,5 @@
+C1;Programación 1;30
+C2;Bases de Datos 1;25
+D1;Programación 2;12
+D2;Sistemas Operativos 1;35
+D3;Introducción a La Ingeniería;40

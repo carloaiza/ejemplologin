@@ -6,10 +6,16 @@
 package ejemplologin.vista;
 
 import ejemplologin.controlador.ControladorLogin;
+import ejemplologin.controlador.ControladorUniversidad;
+import ejemplologin.modelo.Materia;
 import ejemplologin.modelo.Usuario;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,13 +25,14 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
 
     private ControladorLogin controlLogin;
     private Usuario usuarioAutenticado;
+    private ControladorUniversidad controlUniversidad;
 
     /**
      * Creates new form MDIEjemploLogin
      */
     public MDIEjemploLogin() {
         initComponents();
-        controlLogin = new ControladorLogin();
+        
 
     }
     
@@ -84,6 +91,9 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         txtCorreo = new javax.swing.JTextField();
         txtContrasenia = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
+        jifMaterias = new javax.swing.JInternalFrame();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblMaterias = new javax.swing.JTable();
         menuBar = new javax.swing.JMenuBar();
         mnuEjercicioLogin = new javax.swing.JMenu();
         mnuCrearEstudiante = new javax.swing.JMenuItem();
@@ -146,7 +156,54 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         );
 
         desktopPane.add(jfrmLogin);
-        jfrmLogin.setBounds(190, 90, 570, 310);
+        jfrmLogin.setBounds(20, 30, 570, 310);
+
+        jifMaterias.setClosable(true);
+        jifMaterias.setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+        jifMaterias.setIconifiable(true);
+        jifMaterias.setMaximizable(true);
+        jifMaterias.setResizable(true);
+        jifMaterias.setTitle("Listado de Materias");
+        jifMaterias.setToolTipText("");
+        jifMaterias.setVisible(false);
+
+        tblMaterias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Nombre", "Capacidad"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Byte.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblMaterias);
+
+        javax.swing.GroupLayout jifMateriasLayout = new javax.swing.GroupLayout(jifMaterias.getContentPane());
+        jifMaterias.getContentPane().setLayout(jifMateriasLayout);
+        jifMateriasLayout.setHorizontalGroup(
+            jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jifMateriasLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(186, Short.MAX_VALUE))
+        );
+        jifMateriasLayout.setVerticalGroup(
+            jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jifMateriasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
+        );
+
+        desktopPane.add(jifMaterias);
+        jifMaterias.setBounds(300, 50, 630, 340);
 
         mnuEjercicioLogin.setMnemonic('f');
         mnuEjercicioLogin.setText("Archivo");
@@ -167,6 +224,11 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         mnuMaterias.add(mnuCrearMateria);
 
         mnuListarMaterias.setText("Listar Materias");
+        mnuListarMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuListarMateriasActionPerformed(evt);
+            }
+        });
         mnuMaterias.add(mnuListarMaterias);
 
         mnuEjercicioLogin.add(mnuMaterias);
@@ -216,6 +278,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // TODO add your handling code here:
+        
         if (txtCorreo.getText() == null || txtCorreo.getText().compareTo("") == 0) {
             JOptionPane.showMessageDialog(this,
                     "Debe diligenciar el correo", "Datos Faltantes", 2);
@@ -223,6 +286,8 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,
                     "Debe diligenciar la contraseña", "Datos Faltantes", 2);
         } else {
+            controlLogin = new ControladorLogin();
+            
             //Significa que diligencio correo y contraseña
             Pattern pattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
             Matcher matcher = pattern.matcher(txtCorreo.getText());
@@ -234,6 +299,8 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this,
                             "El usuario Ingresado no existe", "Datos Erróneos", 0);
                 } else {
+                    controlUniversidad = new ControladorUniversidad();
+                    
                     JOptionPane.showMessageDialog(this,
                             "Bienvenido " + usuarioAutenticado, "Bienvenido", 1);
                     mnuEjercicioLogin.setEnabled(true);
@@ -259,6 +326,36 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         jfrmLogin.show();
         
     }//GEN-LAST:event_mnuCerrarSesionActionPerformed
+
+    private void pintarMaterias()
+    {
+        controlUniversidad.llenarMaterias();
+        DefaultTableModel model = (DefaultTableModel) tblMaterias.getModel();
+        model.getDataVector().removeAllElements();
+        for(Materia materia: controlUniversidad.getMaterias() )
+        {
+            model.addRow(materia.obtenerArregloObjeto());
+        }
+        tblMaterias.setModel(model);
+        
+    }
+    
+    
+    private void mnuListarMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuListarMateriasActionPerformed
+        // TODO add your handling code here:
+        
+        pintarMaterias();
+        jifMaterias.repaint();
+        jifMaterias.show();
+        if(jifMaterias.isIcon())
+        {
+            try {
+                jifMaterias.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(MDIEjemploLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_mnuListarMateriasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,7 +397,9 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JInternalFrame jfrmLogin;
+    private javax.swing.JInternalFrame jifMaterias;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mnuCerrarSesion;
     private javax.swing.JMenuItem mnuCrearEstudiante;
@@ -310,6 +409,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuListarMaterias;
     private javax.swing.JMenu mnuMaterias;
     private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JTable tblMaterias;
     private javax.swing.JPasswordField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
     // End of variables declaration//GEN-END:variables
