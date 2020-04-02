@@ -7,6 +7,7 @@ package ejemplologin.vista;
 
 import ejemplologin.controlador.ControladorLogin;
 import ejemplologin.controlador.ControladorUniversidad;
+import ejemplologin.excepciones.UniversidadExcepcion;
 import ejemplologin.modelo.Materia;
 import ejemplologin.modelo.Usuario;
 import java.beans.PropertyVetoException;
@@ -32,12 +33,10 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
      */
     public MDIEjemploLogin() {
         initComponents();
-        
 
     }
-    
-    private void iniciarMenus(boolean estado)
-    {
+
+    private void iniciarMenus(boolean estado) {
         mnuCrearEstudiante.setVisible(estado);
         mnuListarEstudiantes.setVisible(estado);
         mnuMaterias.setVisible(estado);
@@ -45,23 +44,21 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         mnuListarMaterias.setVisible(estado);
         mnuMaterias.setVisible(estado);
     }
-    
-    private void gestionarPermisosMenu()
-    {
-        
-        switch(usuarioAutenticado.getTipoUsuario().getCodigo())
-        {
+
+    private void gestionarPermisosMenu() {
+
+        switch (usuarioAutenticado.getTipoUsuario().getCodigo()) {
             ///administrador
             case 1:
                 iniciarMenus(true);
                 break;
             ///consulta
-            case 2:            
+            case 2:
                 iniciarMenus(false);
                 mnuListarEstudiantes.setVisible(true);
                 mnuMaterias.setVisible(true);
                 mnuListarMaterias.setVisible(true);
-                break; 
+                break;
             ///Secretaria
             case 3:
                 iniciarMenus(false);
@@ -70,8 +67,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                 mnuListarMaterias.setVisible(true);
                 mnuCrearEstudiante.setVisible(true);
                 break;
-            
-                
+
         }
     }
 
@@ -94,6 +90,13 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         jifMaterias = new javax.swing.JInternalFrame();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMaterias = new javax.swing.JTable();
+        lblCodigoMateria = new javax.swing.JLabel();
+        lblNombreMateria = new javax.swing.JLabel();
+        lblCapacidadMateria = new javax.swing.JLabel();
+        spnCapacidadMateria = new javax.swing.JSpinner();
+        txtCodigoMateria = new javax.swing.JTextField();
+        txtNombreMateria = new javax.swing.JTextField();
+        btnGuardarMateria = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         mnuEjercicioLogin = new javax.swing.JMenu();
         mnuCrearEstudiante = new javax.swing.JMenuItem();
@@ -152,7 +155,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                     .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(btnIngresar)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         desktopPane.add(jfrmLogin);
@@ -185,6 +188,19 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblMaterias);
 
+        lblCodigoMateria.setText("Código: * ");
+
+        lblNombreMateria.setText("Nombre: *");
+
+        lblCapacidadMateria.setText("Capacidad:");
+
+        btnGuardarMateria.setText("Agregar Materia");
+        btnGuardarMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarMateriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jifMateriasLayout = new javax.swing.GroupLayout(jifMaterias.getContentPane());
         jifMaterias.getContentPane().setLayout(jifMateriasLayout);
         jifMateriasLayout.setHorizontalGroup(
@@ -192,14 +208,50 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
             .addGroup(jifMateriasLayout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(186, Short.MAX_VALUE))
+                .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jifMateriasLayout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(btnGuardarMateria))
+                    .addGroup(jifMateriasLayout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblCodigoMateria)
+                            .addComponent(lblNombreMateria)
+                            .addComponent(lblCapacidadMateria))
+                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jifMateriasLayout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(spnCapacidadMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jifMateriasLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCodigoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         jifMateriasLayout.setVerticalGroup(
             jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jifMateriasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jifMateriasLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jifMateriasLayout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCodigoMateria)
+                            .addComponent(txtCodigoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombreMateria)
+                            .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCapacidadMateria)
+                            .addComponent(spnCapacidadMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnGuardarMateria)))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         desktopPane.add(jifMaterias);
@@ -278,7 +330,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // TODO add your handling code here:
-        
+
         if (txtCorreo.getText() == null || txtCorreo.getText().compareTo("") == 0) {
             JOptionPane.showMessageDialog(this,
                     "Debe diligenciar el correo", "Datos Faltantes", 2);
@@ -287,7 +339,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                     "Debe diligenciar la contraseña", "Datos Faltantes", 2);
         } else {
             controlLogin = new ControladorLogin();
-            
+
             //Significa que diligencio correo y contraseña
             Pattern pattern = Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
             Matcher matcher = pattern.matcher(txtCorreo.getText());
@@ -300,7 +352,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                             "El usuario Ingresado no existe", "Datos Erróneos", 0);
                 } else {
                     controlUniversidad = new ControladorUniversidad();
-                    
+
                     JOptionPane.showMessageDialog(this,
                             "Bienvenido " + usuarioAutenticado, "Bienvenido", 1);
                     mnuEjercicioLogin.setEnabled(true);
@@ -308,9 +360,9 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                     jfrmLogin.hide();
                 }
             } else {
-                 JOptionPane.showMessageDialog(this,
-                            "El correo no tiene un formato válido", "Datos Erróneos", 0);
-                
+                JOptionPane.showMessageDialog(this,
+                        "El correo no tiene un formato válido", "Datos Erróneos", 0);
+
             }
 
         }
@@ -324,31 +376,27 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         usuarioAutenticado = null;
         iniciarMenus(false);
         jfrmLogin.show();
-        
+
     }//GEN-LAST:event_mnuCerrarSesionActionPerformed
 
-    private void pintarMaterias()
-    {
-        controlUniversidad.llenarMaterias();
+    private void pintarMaterias() {
         DefaultTableModel model = (DefaultTableModel) tblMaterias.getModel();
         model.getDataVector().removeAllElements();
-        for(Materia materia: controlUniversidad.getMaterias() )
-        {
+        for (Materia materia : controlUniversidad.getMaterias()) {
             model.addRow(materia.obtenerArregloObjeto());
         }
         tblMaterias.setModel(model);
-        
+
     }
-    
-    
+
+
     private void mnuListarMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuListarMateriasActionPerformed
         // TODO add your handling code here:
-        
+        controlUniversidad.llenarMaterias();
         pintarMaterias();
         jifMaterias.repaint();
         jifMaterias.show();
-        if(jifMaterias.isIcon())
-        {
+        if (jifMaterias.isIcon()) {
             try {
                 jifMaterias.setMaximum(true);
             } catch (PropertyVetoException ex) {
@@ -356,6 +404,32 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_mnuListarMateriasActionPerformed
+
+    private void btnGuardarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMateriaActionPerformed
+        // TODO add your handling code here:
+        if (txtCodigoMateria.getText() == null || txtCodigoMateria.getText().compareTo("") == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe diligenciar el código de la Materia", "Datos Faltantes", 2);
+        } else if (txtNombreMateria.getText() == null || txtNombreMateria.getText().compareTo("") == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe diligenciar el nombre de la materia", "Datos Faltantes", 2);
+        } else {
+            byte capacidad = Byte.parseByte(spnCapacidadMateria.getValue().toString());
+            Materia mat = new Materia(txtCodigoMateria.getText(), txtNombreMateria.getText(),
+                    capacidad);
+            try {
+                controlUniversidad.adicionarMateria(mat);
+                pintarMaterias();
+                txtCodigoMateria.setText("");
+                txtNombreMateria.setText("");
+                spnCapacidadMateria.setValue(0);
+            } catch (UniversidadExcepcion ex) {
+               JOptionPane.showMessageDialog(this,
+                   ex.getMessage() , "Error en materia", 0);
+            }
+
+        }
+    }//GEN-LAST:event_btnGuardarMateriaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -393,6 +467,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardarMateria;
     private javax.swing.JButton btnIngresar;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JLabel jLabel1;
@@ -400,6 +475,9 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JInternalFrame jfrmLogin;
     private javax.swing.JInternalFrame jifMaterias;
+    private javax.swing.JLabel lblCapacidadMateria;
+    private javax.swing.JLabel lblCodigoMateria;
+    private javax.swing.JLabel lblNombreMateria;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mnuCerrarSesion;
     private javax.swing.JMenuItem mnuCrearEstudiante;
@@ -409,9 +487,12 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuListarMaterias;
     private javax.swing.JMenu mnuMaterias;
     private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JSpinner spnCapacidadMateria;
     private javax.swing.JTable tblMaterias;
+    private javax.swing.JTextField txtCodigoMateria;
     private javax.swing.JPasswordField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtNombreMateria;
     // End of variables declaration//GEN-END:variables
 
 }

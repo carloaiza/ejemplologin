@@ -5,6 +5,7 @@
  */
 package ejemplologin.controlador;
 
+import ejemplologin.excepciones.UniversidadExcepcion;
 import ejemplologin.modelo.Materia;
 import ejemplologin.utilidades.LeerArchivoPlano;
 import java.io.Serializable;
@@ -33,6 +34,41 @@ public class ControladorUniversidad implements Serializable{
     
     public void llenarMaterias()
     {
-        materias = LeerArchivoPlano.cargarMaterias();
+        if(materias == null || materias.isEmpty())
+        {
+            materias = LeerArchivoPlano.cargarMaterias();
+        }
     }
+    
+    public void adicionarMateria(Materia materia) throws UniversidadExcepcion
+    {
+        if(validarExistenciaMateria(materia))
+        {
+            ///gritar que esa materia ya existe
+            throw new UniversidadExcepcion("La materia "+materia.getCodigo() + 
+                    " ya existe");
+        }
+        else
+        {            //agrego a la lista
+            if(materia.getCapacidadAlumnos()<=0)
+            {
+                throw new UniversidadExcepcion("La capacidad de la materia debe ser mayor a cero");
+            }
+            materias.add(materia);
+            // agregarla en el archivo
+        }
+    }
+    
+    private boolean validarExistenciaMateria(Materia materia)
+    {
+        for(Materia mat: this.materias)
+        {
+            if(mat.getCodigo().compareTo(materia.getCodigo())==0)
+            {
+                return true;
+            }
+        }        
+        return false;
+    }
+    
 }
