@@ -10,6 +10,7 @@ import ejemplologin.controlador.ControladorUniversidad;
 import ejemplologin.excepciones.UniversidadExcepcion;
 import ejemplologin.modelo.Materia;
 import ejemplologin.modelo.Usuario;
+import ejemplologin.utilidades.EjemploTablaItextPdf;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -97,6 +98,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         txtCodigoMateria = new javax.swing.JTextField();
         txtNombreMateria = new javax.swing.JTextField();
         btnGuardarMateria = new javax.swing.JButton();
+        btnDescargarPdfMaterias = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         mnuEjercicioLogin = new javax.swing.JMenu();
         mnuCrearEstudiante = new javax.swing.JMenuItem();
@@ -155,7 +157,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                     .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(btnIngresar)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         desktopPane.add(jfrmLogin);
@@ -201,6 +203,13 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
             }
         });
 
+        btnDescargarPdfMaterias.setText("Descargar Listado pdf");
+        btnDescargarPdfMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescargarPdfMateriasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jifMateriasLayout = new javax.swing.GroupLayout(jifMaterias.getContentPane());
         jifMaterias.getContentPane().setLayout(jifMateriasLayout);
         jifMateriasLayout.setHorizontalGroup(
@@ -226,32 +235,36 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)
                                 .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCodigoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(75, Short.MAX_VALUE))
+                                    .addComponent(txtCodigoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jifMateriasLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(btnDescargarPdfMaterias)))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
         jifMateriasLayout.setVerticalGroup(
             jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jifMateriasLayout.createSequentialGroup()
-                .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jifMateriasLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jifMateriasLayout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCodigoMateria)
-                            .addComponent(txtCodigoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombreMateria)
-                            .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblCapacidadMateria)
-                            .addComponent(spnCapacidadMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGuardarMateria)))
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jifMateriasLayout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCodigoMateria)
+                    .addComponent(txtCodigoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreMateria)
+                    .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jifMateriasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCapacidadMateria)
+                    .addComponent(spnCapacidadMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnGuardarMateria)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnDescargarPdfMaterias)
+                .addGap(96, 96, 96))
         );
 
         desktopPane.add(jifMaterias);
@@ -431,6 +444,19 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarMateriaActionPerformed
 
+    private void btnDescargarPdfMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarPdfMateriasActionPerformed
+        try {
+            // TODO add your handling code here:
+            EjemploTablaItextPdf ejemplo = new EjemploTablaItextPdf();
+            ejemplo.crearDocumentoPdfMaterias("./pdfs/prog1/listado_materias.pdf",
+                    controlUniversidad.getMaterias());
+            ejemplo.abrirDocumento("./pdfs/prog1/listado_materias.pdf");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+        
+    }//GEN-LAST:event_btnDescargarPdfMateriasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -467,6 +493,7 @@ public class MDIEjemploLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDescargarPdfMaterias;
     private javax.swing.JButton btnGuardarMateria;
     private javax.swing.JButton btnIngresar;
     private javax.swing.JDesktopPane desktopPane;
